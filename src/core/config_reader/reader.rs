@@ -1,13 +1,9 @@
-use std::{fs::read_to_string, io, path::Path};
+use std::{fs::read_to_string, io};
 
 use super::{
     configs::Configurations, 
     keys::{
-        KEY_ADEL_DIRS, 
-        KEY_DELAY_HOUR, 
-        KEY_DELAY_MIN, 
-        KEY_DELAY_SEC, 
-        KEY_PATH_TEMP_DIR,
+        KEY_ADEL_DIRS, KEY_DELAY_HOUR, KEY_DELAY_MIN, KEY_DELAY_SEC, KEY_DELETE_AFTER, KEY_PATH_TEMP_DIR
     }, 
     utils::{config_file_check, edit_path_uname}
 };
@@ -42,7 +38,7 @@ pub(in crate::core::config_reader) fn read_config() -> Result<Configurations, io
         }
 
         if line.starts_with(KEY_DELAY_HOUR) {
-            let value = line.trim_start_matches(KEY_DELAY_HOUR).parse::<u8>()
+            let value = line.trim_start_matches(KEY_DELAY_HOUR).parse::<u64>()
                 .map_err(|_| io::Error::new(
                     io::ErrorKind::InvalidData, 
                     "Invalid delay hour value"
@@ -52,7 +48,7 @@ pub(in crate::core::config_reader) fn read_config() -> Result<Configurations, io
         }
 
         if line.starts_with(KEY_DELAY_MIN) {
-            let value = line.trim_start_matches(KEY_DELAY_MIN).parse::<u8>()
+            let value = line.trim_start_matches(KEY_DELAY_MIN).parse::<u64>()
                 .map_err(|_| io::Error::new(
                     io::ErrorKind::InvalidData, 
                     "Invalid delay minute value"
@@ -62,13 +58,23 @@ pub(in crate::core::config_reader) fn read_config() -> Result<Configurations, io
         }
 
         if line.starts_with(KEY_DELAY_SEC) {
-            let value = line.trim_start_matches(KEY_DELAY_SEC).parse::<u8>()
+            let value = line.trim_start_matches(KEY_DELAY_SEC).parse::<u64>()
                 .map_err(|_| io::Error::new(
                     io::ErrorKind::InvalidData, 
                     "Invalid delay second value"
                 ))?;
 
             settings.set_delay_sec(value);
+        }
+
+        if line.starts_with(KEY_DELETE_AFTER) {
+            let value = line.trim_start_matches(KEY_DELETE_AFTER).parse::<u64>()
+            .map_err(|_| io::Error::new(
+                io::ErrorKind::InvalidData, 
+                "Invalid day setting"
+            ))?;
+
+            settings.set_delete_n(value);
         }
     }
 

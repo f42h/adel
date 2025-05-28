@@ -2,11 +2,12 @@ use std::io;
 
 #[derive(Debug)]
 pub(in crate::core) struct Configurations {
-    path_temp_dir: String, 
-    adel_dirs: Vec<String>,
-    delay_hour: u8,
-    delay_min: u8,
-    delay_sec: u8,
+    pub(in crate::core) path_temp_dir: String, 
+    pub(in crate::core) adel_dirs: Vec<String>,
+    pub(in crate::core) delay_hour: u64,
+    pub(in crate::core) delay_min: u64,
+    pub(in crate::core) delay_sec: u64,
+    pub(in crate::core) delete_home_n: u64
 }
 
 impl Configurations{
@@ -16,7 +17,8 @@ impl Configurations{
             adel_dirs: Vec::new(), 
             delay_hour: 0, 
             delay_min: 0, 
-            delay_sec: 0 
+            delay_sec: 0,
+            delete_home_n: 7
         }
     }
 
@@ -33,18 +35,23 @@ impl Configurations{
         }
 
         self.adel_dirs = new_adel_dirs;
+
         Ok(())
     }
 
-    pub(in crate::core)  fn set_delay_hour(&mut self, new_delay_hour: u8) {
+    pub(in crate::core)  fn set_delay_hour(&mut self, new_delay_hour: u64) {
         self.delay_hour = new_delay_hour;
     }
 
-    pub(in crate::core)  fn set_delay_min(&mut self, new_delay_min: u8) {
+    pub(in crate::core)  fn set_delay_min(&mut self, new_delay_min: u64) {
         self.delay_min = new_delay_min;
     }
 
-    pub(in crate::core)  fn set_delay_sec(&mut self, new_delay_sec: u8) {
+    pub(in crate::core)  fn set_delay_sec(&mut self, new_delay_sec: u64) {
         self.delay_sec = new_delay_sec;
     }
+
+    pub(in crate::core) fn set_delete_n(&mut self, new_delete_n: u64) {
+        self.delete_home_n = new_delete_n;
+    } 
 }

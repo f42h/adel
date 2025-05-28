@@ -5,5 +5,7 @@ pub(in crate::core::config_reader) const KEY_DELAY_HOUR: &str = "DELAY_HOUR="; /
 pub(in crate::core::config_reader) const KEY_DELAY_MIN: &str = "DELAY_MIN="; // u8
 pub(in crate::core::config_reader) const KEY_DELAY_SEC: &str = "DELAY_SEC="; // u8
 
+pub(in crate::core::config_reader) const KEY_DELETE_AFTER: &str = "DELETE_AFTER_N=";
+
 pub(in crate::core::config_reader) const KEY_UNAME: &str = "UNAME"; 
 
