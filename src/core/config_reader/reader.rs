@@ -74,6 +74,13 @@ pub(in crate::core::config_reader) fn read_config() -> Result<Configurations, io
                 "Invalid day setting"
             ))?;
 
+            if value < 1 {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidData, 
+                    "Deletion setting cannot be less than 1 day"
+                )) 
+            }
+
             settings.set_delete_n(value);
         }
     }
