@@ -28,5 +28,7 @@ pub(in crate::core::worker) fn delete_adel_home(adel_home_path: &str, days: u64)
         }
     } 
 
+    create_home(adel_home_path)?;
+
     Ok(())
 }
