@@ -1,12 +1,12 @@
 use std::{fs, io, path::Path, thread, time::Duration};
 
-use crate::core::{
+use crate::{core::{
     config_reader::{
         configs::Configurations, 
         reader::get_configurations
     },
-    worker::utils::{create_home, delete_adel_home}
-};
+    worker::utils::{check_create_home, delete_adel_home}
+}, scandelay};
 use log::{debug, error, info};
 
 pub(crate) struct Adel {
@@ -49,8 +49,9 @@ impl Adel {
                 let filename = Path::new(&current).file_name().ok_or_else(|| 
                     std::io::Error::new(
                         std::io::ErrorKind::NotFound,
-                        "File name not found"
+                        format!("File not found: {}", current)
                     ))?;
+                    
                 let destination = format!("{}{}", temp_path, filename.to_string_lossy());
 
                 fs::rename(&current, &destination)?;
@@ -66,12 +67,12 @@ impl Adel {
 
         let home_dir = &self.configs.path_temp_dir;
 
-        if let Err(err) = create_home(home_dir) {
+        if let Err(err) = check_create_home(home_dir) {
             error!("Error: {}", err);
             return;
         } 
 
-        let delay = (self.configs.delay_hour * 3600) + (self.configs.delay_min * 60) + self.configs.delay_sec;
+        let delay = scandelay!(self.configs.delay_hour, self.configs.delay_min, self.configs.delay_sec);
 
         info!("Set query delay to: {}", delay);
         info!("Set delete after n days where n={}", self.configs.delete_home_n);

@@ -3,7 +3,12 @@ use std::{fs::read_to_string, io};
 use super::{
     configs::Configurations, 
     keys::{
-        KEY_ADEL_DIRS, KEY_DELAY_HOUR, KEY_DELAY_MIN, KEY_DELAY_SEC, KEY_DELETE_AFTER, KEY_PATH_TEMP_DIR
+        KEY_ADEL_DIRS, 
+        KEY_DELAY_HOUR, 
+        KEY_DELAY_MIN, 
+        KEY_DELAY_SEC, 
+        KEY_DELETE_AFTER, 
+        KEY_PATH_TEMP_DIR
     }, 
     utils::{config_file_check, edit_path_uname}
 };
