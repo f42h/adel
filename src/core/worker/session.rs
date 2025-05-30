@@ -85,7 +85,9 @@ impl Adel {
 
             for dir in &self.configs.adel_dirs {
                 if let Ok(moved) = self.scan_dir(dir) {
-                    debug!("Cleared:\n{:#?}", moved);
+                    if !moved.is_empty() {
+                        debug!("Cleared:\n{:#?}", moved);
+                    }
                 }
             } 
 
